@@ -46,7 +46,9 @@ mod tests {
 
     #[test]
     fn it_works() {
-        let mut seed = RandNum::new(1, 100, 12334);
-        println!("{}", seed.get());
+        let mut seed = RandNum::new(1, 100000000000000000, 1);
+        loop {
+            println!("{}", seed.get());
+        }
     }
 }
