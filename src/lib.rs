@@ -10,7 +10,7 @@
  * Modified By: Jan Simon Schmitt
  */
 
- struct RandNum {
+pub struct RandNum {
      seed: i64,
      a: i64,
      c: i64,
@@ -20,7 +20,7 @@
  }
  
  impl RandNum {
-    fn new(min_value: i64, max_value: i64, seed: i64) -> Self {
+    pub fn new(min_value: i64, max_value: i64, seed: i64) -> Self {
         RandNum {
             seed,
             a: 1664525,
@@ -33,7 +33,7 @@
     
      
  
-     fn get(&mut self) -> i64 {
+    pub fn get(&mut self) -> i64 {
          self.seed = (self.a * self.seed + self.c) % self.m;
          self.min_value + (self.seed % (self.max_value - self.min_value + 1))
      }
