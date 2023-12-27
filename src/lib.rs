@@ -14,28 +14,24 @@ pub struct RandNum {
      seed: i64,
      a: i64,
      c: i64,
-     m: i64,
-     min_value: i64,
-     max_value: i64,
+     m: i64
  }
  
  impl RandNum {
-    pub fn new(min_value: i64, max_value: i64, seed: i64) -> Self {
+    pub fn new(seed: i64) -> Self {
         RandNum {
             seed,
             a: 1664525,
             c: 1013904223,
             m: 2i64.pow(32),
-            min_value,
-            max_value,
         }
     }
     
      
  
-    pub fn get(&mut self) -> i64 {
+    pub fn get(&mut self, min: i64, max: i64) -> i64 {
          self.seed = (self.a * self.seed + self.c) % self.m;
-         self.min_value + (self.seed % (self.max_value - self.min_value + 1))
+         min + (self.seed % (max - min + 1))
      }
  }
  
@@ -46,9 +42,9 @@ mod tests {
 
     #[test]
     fn it_works() {
-        let mut seed = RandNum::new(1, 100000000000000000, 1);
+        let mut seed = RandNum::new(82);
         loop {
-            println!("{}", seed.get());
+            println!("{}", seed.get(1, 1000));
         }
     }
 }
