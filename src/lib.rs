@@ -9,6 +9,7 @@
  * Modified: 27 12 2023
  * Modified By: Jan Simon Schmitt
  */
+use core::arch::asm;
 
 pub struct RandNum {
      seed: i64,
@@ -18,7 +19,18 @@ pub struct RandNum {
  }
  
  impl RandNum {
-    pub fn new(seed: i64) -> Self {
+    pub fn new() -> Self {
+        let mut lo: u64;
+        let mut hi: u64;
+        unsafe {
+            asm!(
+                "rdtsc",
+                out("eax") lo,
+                out("edx") hi,
+            );
+        }
+        let seed = ((hi as u128) << 64) | lo as u128;
+        let seed = seed as i64;
         RandNum {
             seed,
             a: 1664525,
@@ -42,9 +54,9 @@ mod tests {
 
     #[test]
     fn it_works() {
-        let mut seed = RandNum::new(82);
+        let mut seed = RandNum::new();
         loop {
-            println!("{}", seed.get(1, 1000));
+           println!("{}", seed.get(1, 1000));
         }
     }
 }
